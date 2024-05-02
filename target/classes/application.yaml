@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: 'pencaucu'
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/penca_ucu
+    username: postgres
+    password: matias
+    driverClassName: org.postgresql.Driver
+  sql:
+    init:
+      platform: postgres
