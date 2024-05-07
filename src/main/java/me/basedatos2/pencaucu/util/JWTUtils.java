@@ -5,6 +5,8 @@ import io.jsonwebtoken.impl.crypto.JwtSigner;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import me.basedatos2.pencaucu.persistance.entities.User;
+import me.basedatos2.pencaucu.persistance.repositories.UserRespository;
 import me.basedatos2.pencaucu.services.auth.AuthService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JWTUtils {
     private final AuthService authService;
+    private final UserRespository userRespository;
     private static final String SECRET = "POLVORONES";
     private static final long EXPIRATION_TIME = 864_000_00;
 
@@ -24,10 +27,24 @@ public class JWTUtils {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
         String role = "USER";
+        User tokenUser = userRespository.getUser(ci).orElseThrow(
+                () -> new RuntimeException("User not found")
+        );
+
+        String name = tokenUser.getName();
+        String lastName = tokenUser.getLastname();
+        String email = tokenUser.getEmail();
+        String birthdate = tokenUser.getBirthdate().toString();
+        String career = "Ing. Informatica";
 
         return Jwts.builder()
                 .setSubject(ci.toString())
                 .claim("role", role)
+                .claim("name", name)
+                .claim("lastName", lastName)
+                .claim("email", email)
+                .claim("birthdate", birthdate)
+                .claim("career", career)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, SECRET)

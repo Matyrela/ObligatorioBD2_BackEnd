@@ -16,6 +16,27 @@ public class AuthController {
     private final AuthService authService;
     private final JWTUtils jwtUtils;
 
+    @PostMapping("register")
+    public Auth.RegisterResponse register(
+            @RequestBody Auth.RegisterRequest registerRequest
+    ) {
+        try {
+            authService.Register(registerRequest);
+            return Auth.RegisterResponse.builder()
+                .status(HttpStatus.CREATED)
+                .created(true)
+                .message("User created")
+                .build();
+        } catch (RuntimeException e) {
+            return Auth.RegisterResponse.builder()
+                .status(HttpStatus.BAD_REQUEST)
+                .created(false)
+                .message(e.getMessage())
+                .build();
+        }
+    }
+
+
     @PostMapping("login")
     public Auth.LoginResponse login(
             @RequestBody Auth.LoginRequest loginRequest

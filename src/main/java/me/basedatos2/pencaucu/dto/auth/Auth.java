@@ -3,7 +3,12 @@ package me.basedatos2.pencaucu.dto.auth;
 import lombok.Builder;
 import org.springframework.http.HttpStatus;
 
+import java.util.Date;
+
 public class Auth {
+
+    // LOGIN RECORD -----------------------------------------------------------
+
     public record LoginRequest(
             Integer ci,
             String password
@@ -15,6 +20,26 @@ public class Auth {
             String message,
             String token
     ) {}
+
+    // REGISTER RECORD --------------------------------------------------------
+
+    public record RegisterRequest(
+            Integer ci,
+            String password,
+            String name,
+            String lastName,
+            String email,
+            Date birthdate
+    ) {}
+
+    @Builder
+    public record RegisterResponse(
+            HttpStatus status,
+            Boolean created,
+            String message
+    ) {}
+
+    // TOKEN RECORD -----------------------------------------------------------
 
     public record TokenRequest(
             String token

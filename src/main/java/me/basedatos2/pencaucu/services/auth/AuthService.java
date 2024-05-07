@@ -23,6 +23,23 @@ public class AuthService {
         }
     }
 
+    public Boolean Register(Auth.RegisterRequest req) throws RuntimeException{
+        if(userRespository.getUser(req.ci()).isPresent()){
+            throw new RuntimeException("User already exists");
+        }
+
+        userRespository.createUser(
+                req.ci(),
+                EncodePassword(req.password()),
+                req.name(),
+                req.lastName(),
+                req.email(),
+                req.birthdate()
+        );
+
+        return userRespository.getUser(req.ci()).isPresent();
+    }
+
     public String EncodePassword(String password) {
         int strength = 10;
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(strength);
