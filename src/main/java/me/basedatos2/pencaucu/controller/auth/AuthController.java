@@ -72,7 +72,7 @@ public class AuthController {
             return Auth.LoginResponse.builder()
                 .status(HttpStatus.UNAUTHORIZED)
                 .message("Invalid token")
-                .token(tokenRequest.token())
+                .token(null)
                 .build();
         }
     }

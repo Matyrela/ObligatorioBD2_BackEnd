@@ -15,17 +15,17 @@ public class AuthService {
 
     public void Login(Auth.LoginRequest req) throws RuntimeException{
         User user = userRespository.getUser(req.ci()).orElseThrow(
-                () -> new RuntimeException("User not found")
+                () -> new RuntimeException("Usuario o contraseña incorrectos")
         );
 
         if(!isCorrectPassword(req.password(), user.getPassword())){
-            throw new RuntimeException("Invalid password");
+            throw new RuntimeException("Usuario o contraseña incorrectos");
         }
     }
 
     public Boolean Register(Auth.RegisterRequest req) throws RuntimeException{
         if(userRespository.getUser(req.ci()).isPresent()){
-            throw new RuntimeException("User already exists");
+            throw new RuntimeException("Cedula ya registrada");
         }
 
         userRespository.createUser(
@@ -53,7 +53,7 @@ public class AuthService {
 
     public UserDetails loadUserByCI(Integer ci){
         User user = userRespository.getUser(ci).orElseThrow(
-            () -> new RuntimeException("User not found")
+            () -> new RuntimeException("Usuario no encontrado")
         );
         return org.springframework.security.core.userdetails.User.builder()
             .username(user.getCi().toString())
