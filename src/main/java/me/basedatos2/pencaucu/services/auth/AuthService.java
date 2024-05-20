@@ -56,7 +56,7 @@ public class AuthService {
             () -> new RuntimeException("Usuario no encontrado")
         );
         return org.springframework.security.core.userdetails.User.builder()
-            .username(user.getCi().toString())
+            .username(user.getId().toString())
             .password(user.getPassword())
             .roles("USER")
             .build();

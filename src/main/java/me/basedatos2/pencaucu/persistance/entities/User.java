@@ -1,9 +1,6 @@
 package me.basedatos2.pencaucu.persistance.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,27 +12,34 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "users")
 public class User {
-
     @Id
-    @Column(name = "ci", precision = 8)
-    private Integer ci;
+    @Column(name = "ci", nullable = false, precision = 8)
+    private BigDecimal id;
 
-    @Column(name = "password", length = 150)
+    @Column(name = "password", nullable = false, length = 150)
     private String password;
 
-    @Column(name = "name", length = 25)
+    @Column(name = "name", nullable = false, length = 25)
     private String name;
 
-    @Column(name = "lastname", length = 25)
+    @Column(name = "lastname", nullable = false, length = 25)
     private String lastname;
 
-    @Column(name = "email", length = 150)
+    @Column(name = "email", nullable = false, length = 150)
     private String email;
 
-    @Column(name = "birthdate")
+    @Column(name = "birthdate", nullable = false)
     private LocalDate birthdate;
 
-    @Column(name = "score")
-    private Short score;
+    @Column(name = "score", nullable = false, precision = 3)
+    private BigDecimal score;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "champion", nullable = false)
+    private Team champion;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "secondplace", nullable = false)
+    private Team secondplace;
 
 }

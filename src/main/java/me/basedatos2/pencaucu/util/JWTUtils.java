@@ -1,7 +1,6 @@
 package me.basedatos2.pencaucu.util;
 
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.impl.crypto.JwtSigner;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -11,7 +10,6 @@ import me.basedatos2.pencaucu.services.auth.AuthService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.xml.bind.DatatypeConverter;
 import java.util.Date;
 
 @Log4j2
