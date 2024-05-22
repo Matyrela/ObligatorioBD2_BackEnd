@@ -3,7 +3,7 @@ spring:
     name: 'pencaucu'
 
   datasource:
-    url: jdbc:postgresql://sape.tplinkdns.com:9671/postgres
+    url: jdbc:postgresql://sape.tplinkdns.com:9671/penca_ucu
     username: killa
     password: interchange
     driverClassName: org.postgresql.Driver

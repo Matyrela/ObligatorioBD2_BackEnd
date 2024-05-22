@@ -10,11 +10,11 @@ import java.util.Optional;
 
 @Repository("student")
 public interface StudentRespository extends JpaRepository<Student, Long>{
-    @Query(value = "SELECT * FROM users WHERE ci = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM student WHERE ci = ?1", nativeQuery = true)
     Optional<Student> getStudent(Integer ci);
 
     @Query(value = """
-        INSERT INTO Student (
+        INSERT INTO student (
         ci,
         password,
         name,
