@@ -4,8 +4,8 @@ import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import me.basedatos2.pencaucu.persistance.entities.User;
-import me.basedatos2.pencaucu.persistance.repositories.UserRespository;
+import me.basedatos2.pencaucu.persistance.entities.Student;
+import me.basedatos2.pencaucu.persistance.repositories.StudentRespository;
 import me.basedatos2.pencaucu.services.auth.AuthService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JWTUtils {
     private final AuthService authService;
-    private final UserRespository userRespository;
+    private final StudentRespository studentRespository;
     private static final String SECRET = "POLVORONES";
     private static final long EXPIRATION_TIME = 864_000_00;
 
@@ -25,7 +25,7 @@ public class JWTUtils {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
         String role = "USER";
-        User tokenUser = userRespository.getUser(ci).orElseThrow(
+        Student tokenUser = studentRespository.getStudent(ci).orElseThrow(
                 () -> new RuntimeException("User not found")
         );
 

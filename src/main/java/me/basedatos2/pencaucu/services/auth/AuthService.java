@@ -2,8 +2,8 @@ package me.basedatos2.pencaucu.services.auth;
 
 import lombok.AllArgsConstructor;
 import me.basedatos2.pencaucu.dto.auth.Auth;
-import me.basedatos2.pencaucu.persistance.entities.User;
-import me.basedatos2.pencaucu.persistance.repositories.UserRespository;
+import me.basedatos2.pencaucu.persistance.entities.Student;
+import me.basedatos2.pencaucu.persistance.repositories.StudentRespository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,24 +11,24 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class AuthService {
-    private final UserRespository userRespository;
+    private final StudentRespository studentRespository;
 
     public void Login(Auth.LoginRequest req) throws RuntimeException{
-        User user = userRespository.getUser(req.ci()).orElseThrow(
+        Student student = studentRespository.getStudent(req.ci()).orElseThrow(
                 () -> new RuntimeException("Usuario o contraseña incorrectos")
         );
 
-        if(!isCorrectPassword(req.password(), user.getPassword())){
+        if(!isCorrectPassword(req.password(), student.getPassword())){
             throw new RuntimeException("Usuario o contraseña incorrectos");
         }
     }
 
     public Boolean Register(Auth.RegisterRequest req) throws RuntimeException{
-        if(userRespository.getUser(req.ci()).isPresent()){
+        if(studentRespository.getStudent(req.ci()).isPresent()){
             throw new RuntimeException("Cedula ya registrada");
         }
 
-        userRespository.createUser(
+        studentRespository.createStudent(
                 req.ci(),
                 EncodePassword(req.password()),
                 req.name(),
@@ -37,7 +37,7 @@ public class AuthService {
                 req.birthdate()
         );
 
-        return userRespository.getUser(req.ci()).isPresent();
+        return studentRespository.getStudent(req.ci()).isPresent();
     }
 
     public String EncodePassword(String password) {
@@ -52,12 +52,12 @@ public class AuthService {
     }
 
     public UserDetails loadUserByCI(Integer ci){
-        User user = userRespository.getUser(ci).orElseThrow(
+        Student student = studentRespository.getStudent(ci).orElseThrow(
             () -> new RuntimeException("Usuario no encontrado")
         );
         return org.springframework.security.core.userdetails.User.builder()
-            .username(user.getId().toString())
-            .password(user.getPassword())
+            .username(student.getId().toString())
+            .password(student.getPassword())
             .roles("USER")
             .build();
     }

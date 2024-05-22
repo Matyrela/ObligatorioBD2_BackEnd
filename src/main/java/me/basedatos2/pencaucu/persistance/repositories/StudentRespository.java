@@ -1,6 +1,6 @@
 package me.basedatos2.pencaucu.persistance.repositories;
 
-import me.basedatos2.pencaucu.persistance.entities.User;
+import me.basedatos2.pencaucu.persistance.entities.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,13 +8,13 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.Optional;
 
-@Repository("users")
-public interface UserRespository extends JpaRepository<User, Long>{
+@Repository("student")
+public interface StudentRespository extends JpaRepository<Student, Long>{
     @Query(value = "SELECT * FROM users WHERE ci = ?1", nativeQuery = true)
-    Optional<User> getUser(Integer ci);
+    Optional<Student> getStudent(Integer ci);
 
     @Query(value = """
-        INSERT INTO users (
+        INSERT INTO Student (
         ci,
         password,
         name,
@@ -24,7 +24,7 @@ public interface UserRespository extends JpaRepository<User, Long>{
         score
         ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, 0)
     """, nativeQuery = true)
-    void createUser(
+    void createStudent(
             Integer ci,
             String password,
             String name,

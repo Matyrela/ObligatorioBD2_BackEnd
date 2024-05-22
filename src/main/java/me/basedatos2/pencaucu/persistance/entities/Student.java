@@ -10,8 +10,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "student")
+public class Student {
     @Id
     @Column(name = "ci", nullable = false, precision = 8)
     private BigDecimal id;
@@ -41,5 +41,9 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "secondplace", nullable = false)
     private Team secondplace;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "career", nullable = false)
+    private Career career;
 
 }

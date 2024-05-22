@@ -3,9 +3,9 @@ spring:
     name: 'pencaucu'
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/penca_ucu
-    username: postgres
-    password: matias
+    url: jdbc:postgresql://sape.tplinkdns.com:9671/postgres
+    username: killa
+    password: interchange
     driverClassName: org.postgresql.Driver
   sql:
     init:

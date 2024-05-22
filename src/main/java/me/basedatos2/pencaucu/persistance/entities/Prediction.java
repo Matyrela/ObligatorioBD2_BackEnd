@@ -28,7 +28,7 @@ public class Prediction {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "student", nullable = false)
-    private User student;
+    private Student student;
 
     @Column(name = "scoreteam1", nullable = false)
     private Integer scoreteam1;
