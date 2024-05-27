@@ -19,9 +19,9 @@ public class TeamService {
     }
 
     public void createTeam(Teamdto.CreateTeamDto teamdto) {
-        if(!tr.getTeamsByCountryAndName(teamdto.country(), teamdto.name())){
+        tr.getTeamsById(teamdto.countryid()).ifPresent(x -> {
             throw new IllegalArgumentException("El equipo ya existe");
-        }
-        tr.insertTeam(teamdto.name(), teamdto.country());
+        });
+        tr.insertTeam(teamdto.countryid(), teamdto.name(), teamdto.country());
     }
 }

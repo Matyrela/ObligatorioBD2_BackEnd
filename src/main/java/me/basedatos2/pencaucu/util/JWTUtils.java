@@ -7,10 +7,12 @@ import lombok.extern.log4j.Log4j2;
 import me.basedatos2.pencaucu.persistance.entities.Student;
 import me.basedatos2.pencaucu.persistance.repositories.StudentRespository;
 import me.basedatos2.pencaucu.services.auth.AuthService;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Log4j2
 @Service
@@ -89,6 +91,16 @@ public class JWTUtils {
             throw new RuntimeException("Could not extract user details from token", e);
         }
     }
+
+    public GrantedAuthority getUserAuthorities(String token) {
+        try {
+            Claims claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
+            return (GrantedAuthority) claims.get("role");
+        } catch (Exception e) {
+            throw new RuntimeException("Could not extract authorities from token", e);
+        }
+    }
+
 
     public String getSubjectFromToken(String token) {
         try {
