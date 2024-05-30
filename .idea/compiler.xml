@@ -8,12 +8,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ObligatorioBD2_BackEnd" />
+        <module name="pencaucu" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ObligatorioBD2_BackEnd" options="-parameters" />
+      <module name="pencaucu" options="-parameters" />
     </option>
   </component>
 </project>

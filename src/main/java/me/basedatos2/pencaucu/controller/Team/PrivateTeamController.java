@@ -18,7 +18,9 @@ public class PrivateTeamController {
     public ResponseEntity<?> createTeam(
             @RequestBody Teamdto.CreateTeamDto teamdto
             ){
-        ts.createTeam(teamdto);
-        return ResponseEntity.ok("Team created");
+        if(ts.createTeam(teamdto))
+            return ResponseEntity.ok("Team created");
+        else
+            return ResponseEntity.badRequest().body("Error creating team");
     }
 }

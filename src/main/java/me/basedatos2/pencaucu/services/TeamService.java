@@ -1,5 +1,6 @@
 package me.basedatos2.pencaucu.services;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import me.basedatos2.pencaucu.dto.team.Teamdto;
@@ -17,11 +18,14 @@ public class TeamService {
 
         return tr.getTeams();
     }
-
-    public void createTeam(Teamdto.CreateTeamDto teamdto) {
-        tr.getTeamsById(teamdto.countryid()).ifPresent(x -> {
-            throw new IllegalArgumentException("El equipo ya existe");
-        });
-        tr.insertTeam(teamdto.countryid(), teamdto.name(), teamdto.country());
+    @Transactional
+    public boolean createTeam(Teamdto.CreateTeamDto teamdto) {
+        try {
+            tr.insertTeam(teamdto.countryid(), teamdto.name(), teamdto.country());
+        } catch (Exception e) {
+            e.getMessage();
+            return false;
+        }
+        return true;
     }
 }
