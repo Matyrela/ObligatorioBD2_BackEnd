@@ -1,5 +1,6 @@
 package me.basedatos2.pencaucu.services.auth;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import me.basedatos2.pencaucu.dto.auth.Auth;
 import me.basedatos2.pencaucu.persistance.entities.Student;
@@ -23,7 +24,8 @@ public class AuthService {
         }
     }
 
-    public Boolean Register(Auth.RegisterRequest req) throws RuntimeException{
+    @Transactional
+    public void Register(Auth.RegisterRequest req) throws RuntimeException{
         if(studentRespository.getStudent(req.ci()).isPresent()){
             throw new RuntimeException("Cedula ya registrada");
         }
@@ -34,10 +36,11 @@ public class AuthService {
                 req.name(),
                 req.lastName(),
                 req.email(),
-                req.birthdate()
+                req.birthdate(),
+                req.champion(),
+                req.secondPlace(),
+                req.career()
         );
-
-        return studentRespository.getStudent(req.ci()).isPresent();
     }
 
     public String EncodePassword(String password) {

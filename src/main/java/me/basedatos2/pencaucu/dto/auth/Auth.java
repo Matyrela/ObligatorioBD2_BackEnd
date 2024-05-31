@@ -29,7 +29,10 @@ public class Auth {
             String name,
             String lastName,
             String email,
-            Date birthdate
+            Date birthdate,
+            Integer champion,
+            Integer secondPlace,
+            Integer career
     ) {}
 
     @Builder
