@@ -13,19 +13,21 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class TeamService {
-    private final TeamRepository tr;
-    public List<Team> getTeams() {
+    private final TeamRepository teamRepository;
 
-        return tr.getTeams();
+    public List<Team> getTeams() {
+        return teamRepository.getTeams();
     }
+
     @Transactional
-    public boolean createTeam(Teamdto.CreateTeamDto teamdto) {
-        try {
-            tr.insertTeam(teamdto.countryid(), teamdto.name(), teamdto.country());
-        } catch (Exception e) {
-            e.getMessage();
-            return false;
-        }
+    public boolean createTeam(Teamdto.CreateTeamDto teamdto) throws Exception {
+        teamRepository.getTeamsById(teamdto.countryid()).ifPresent(team -> {
+            throw new RuntimeException("Equipo ya agregado");
+        });
+
+        System.out.println(teamdto.countryid());
+
+        teamRepository.insertTeam(teamdto.countryid(), teamdto.name(), teamdto.country());
         return true;
     }
 }

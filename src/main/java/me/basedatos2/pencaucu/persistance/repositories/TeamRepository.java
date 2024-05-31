@@ -11,8 +11,10 @@ import java.util.Optional;
 public interface TeamRepository extends JpaRepository<Team, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM team" )
     List<Team> getTeams();
+
     @Query(nativeQuery = true, value = "SELECT * FROM team WHERE countryid = ?1")
-    Team getTeamsById(Integer id);
+    Optional<Team> getTeamsById(Integer id);
+
     @Modifying
     @Query(nativeQuery = true, value = "INSERT INTO team (countryid, name, country) VALUES (?1, ?2, ?3)")
     void insertTeam(Integer countryid, String name, String country);

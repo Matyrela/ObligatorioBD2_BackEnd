@@ -1,4 +1,4 @@
-package me.basedatos2.pencaucu.controller.Team;
+package me.basedatos2.pencaucu.controller.team;
 
 import lombok.RequiredArgsConstructor;
 import me.basedatos2.pencaucu.dto.team.Teamdto;
@@ -13,14 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("admin/team")
 @RequiredArgsConstructor
 public class PrivateTeamController {
-    private final TeamService ts;
+
+    private final TeamService teamService;
+
     @PostMapping("")
-    public ResponseEntity<?> createTeam(
-            @RequestBody Teamdto.CreateTeamDto teamdto
-            ){
-        if(ts.createTeam(teamdto))
-            return ResponseEntity.ok("Team created");
-        else
-            return ResponseEntity.badRequest().body("Error creating team");
+    public ResponseEntity<?> createTeam(@RequestBody Teamdto.CreateTeamDto teamdto){
+       try {
+           teamService.createTeam(teamdto);
+           return ResponseEntity.ok("Team created");
+       }catch (Exception e){
+           return ResponseEntity.badRequest().body(e.getMessage());
+       }
     }
 }
