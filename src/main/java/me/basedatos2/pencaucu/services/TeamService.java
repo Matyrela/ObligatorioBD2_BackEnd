@@ -1,7 +1,6 @@
 package me.basedatos2.pencaucu.services;
 
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import me.basedatos2.pencaucu.dto.team.Teamdto;
 import me.basedatos2.pencaucu.persistance.entities.Team;

@@ -30,10 +30,5 @@ public class Prediction {
     @JoinColumn(name = "student", nullable = false)
     private Student student;
 
-    @Column(name = "scoreteam1", nullable = false)
-    private Integer scoreteam1;
-
-    @Column(name = "scoreteam2", nullable = false)
-    private Integer scoreteam2;
 
 }
