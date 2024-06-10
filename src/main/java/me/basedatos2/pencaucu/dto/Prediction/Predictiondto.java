@@ -7,6 +7,6 @@ public class Predictiondto {
             Integer points,
             Integer team1score,
             Integer team2score,
-            java.math.BigDecimal studentid
+            Long studentid
     ) {}
 }

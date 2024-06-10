@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class Student {
     @Id
     @Column(name = "ci", nullable = false, precision = 8)
-    private BigDecimal id;
+    private Long id;
 
     @Column(name = "password", nullable = false, length = 150)
     private String password;
@@ -32,7 +32,7 @@ public class Student {
     private LocalDate birthdate;
 
     @Column(name = "score", nullable = false, precision = 3)
-    private BigDecimal score;
+    private Long score;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "champion", nullable = false)

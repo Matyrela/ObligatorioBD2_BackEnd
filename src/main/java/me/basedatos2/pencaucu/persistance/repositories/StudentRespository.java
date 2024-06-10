@@ -6,7 +6,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Repository("student")
@@ -39,6 +41,15 @@ public interface StudentRespository extends JpaRepository<Student, Long>{
             Integer championId,
             Integer secondPlaceId,
             Integer careerId
-
     );
+
+    @Query(nativeQuery = true, value = """
+            SELECT * FROM student ORDER BY score DESC LIMIT 10;
+        """)
+    List<Student> getGlobalRanking();
+
+    @Query(nativeQuery = true, value = """
+            SELECT * FROM student WHERE ci = :ci;
+        """)
+    Optional<Student> getRank(Long ci);
 }
