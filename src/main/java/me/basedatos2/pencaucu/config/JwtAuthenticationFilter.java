@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import me.basedatos2.pencaucu.util.JWTUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -30,15 +31,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = jwtUtils.getTokenFromRequest(request);
         if (token != null && jwtUtils.validateToken(token)) {
             UserDetails userDetails = jwtUtils.getUserDetailsFromToken(token);
-            List<GrantedAuthority> authorityList = new LinkedList<>();
+            List<GrantedAuthority> authorityList = parseAuthorities(token);
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    null,
-                    new ArrayList<>()
+                    userDetails, null, authorityList
             );
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
+    }
+
+    private List<GrantedAuthority> parseAuthorities(String token) {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + jwtUtils.getAuthoritiesFromToken(token)));
     }
 }

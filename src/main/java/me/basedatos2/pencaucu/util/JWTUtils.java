@@ -115,4 +115,17 @@ public class JWTUtils {
             return "-1";
         }
     }
+
+    public String getAuthoritiesFromToken(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(SECRET)
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            return claims.get("role").toString();
+        } catch (Exception e) {
+            throw new RuntimeException("Could not extract authorities from token", e);
+        }
+    }
 }
