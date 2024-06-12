@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -42,9 +41,6 @@ public interface StudentRespository extends JpaRepository<Student, Long>{
             Integer secondPlaceId,
             Integer careerId
     );
-<<<<<<< Updated upstream
-}
-=======
 
     @Modifying
     @Query(value = """
@@ -67,4 +63,3 @@ public interface StudentRespository extends JpaRepository<Student, Long>{
         """)
     Optional<Student> getRank(Long ci);
 }
->>>>>>> Stashed changes
