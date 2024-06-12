@@ -1,5 +1,7 @@
 package me.basedatos2.pencaucu.dto.game;
 
+import lombok.Builder;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -12,6 +14,7 @@ public class Gamedto {
             String stadium
     ) {}
 
+    @Builder
     public record UpdateScoresDto(
             Integer gameid,
             Integer scoreTeam1,
@@ -25,6 +28,12 @@ public class Gamedto {
             String team1,
             String team2,
             String stadium,
+            Integer scoreTeam1,
+            Integer scoreTeam2
+    ) {}
+
+    public record FinishGameDto(
+            Integer gameid,
             Integer scoreTeam1,
             Integer scoreTeam2
     ) {}

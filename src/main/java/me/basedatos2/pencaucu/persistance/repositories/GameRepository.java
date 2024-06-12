@@ -54,4 +54,15 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
         SELECT * FROM game;
     """)
     List<Game> getAllGames();
+
+    @Modifying
+    @Query(
+            nativeQuery = true,
+            value = """
+                    UPDATE game
+                    SET team1score = :score1, team2score = :score2
+                    WHERE gameid = :gameid
+            """
+    )
+    void updateScores(Integer gameid, Integer score1, Integer score2);
 }
