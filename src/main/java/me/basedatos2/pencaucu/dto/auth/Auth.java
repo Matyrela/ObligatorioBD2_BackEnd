@@ -35,6 +35,15 @@ public class Auth {
             Integer career
     ) {}
 
+    public record AdminRegisterRequest(
+            Integer ci,
+            String password,
+            Date birthdate,
+            String name,
+            String lastname,
+            String email
+    ) {}
+
     @Builder
     public record RegisterResponse(
             HttpStatus status,

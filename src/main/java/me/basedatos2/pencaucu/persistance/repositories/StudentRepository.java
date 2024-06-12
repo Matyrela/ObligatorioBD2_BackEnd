@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository("student")
-public interface StudentRespository extends JpaRepository<Student, Long>{
+public interface StudentRepository extends JpaRepository<Student, Long>{
     @Query(value = "SELECT * FROM student WHERE ci = ?1", nativeQuery = true)
     Optional<Student> getStudent(Integer ci);
 

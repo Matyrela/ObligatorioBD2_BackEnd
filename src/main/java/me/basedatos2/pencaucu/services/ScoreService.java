@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.basedatos2.pencaucu.dto.score.ScoreDto;
 import me.basedatos2.pencaucu.persistance.entities.Student;
 import me.basedatos2.pencaucu.persistance.repositories.PredictionRepository;
-import me.basedatos2.pencaucu.persistance.repositories.StudentRespository;
+import me.basedatos2.pencaucu.persistance.repositories.StudentRepository;
 import me.basedatos2.pencaucu.util.StudentUtils;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScoreService {
     final PredictionRepository predictionRepository;
-    final StudentRespository studentRespository;
+    final StudentRepository studentRepository;
     final StudentUtils studentUtils;
 
     public ScoreDto.rankingResponse getRanking() {
@@ -23,7 +23,7 @@ public class ScoreService {
             return new ScoreDto.rankingResponse(List.of());
         }
 
-        List<Student> scores = studentRespository.getGlobalRanking();
+        List<Student> scores = studentRepository.getGlobalRanking();
 
         if (scores.size() >= 10){
             if (!scores.contains(student)) {

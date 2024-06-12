@@ -4,22 +4,24 @@ import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import me.basedatos2.pencaucu.persistance.entities.Admin;
 import me.basedatos2.pencaucu.persistance.entities.Student;
-import me.basedatos2.pencaucu.persistance.repositories.StudentRespository;
+import me.basedatos2.pencaucu.persistance.repositories.AdminRepository;
+import me.basedatos2.pencaucu.persistance.repositories.StudentRepository;
 import me.basedatos2.pencaucu.services.auth.AuthService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 @Log4j2
 @Service
 @RequiredArgsConstructor
 public class JWTUtils {
     private final AuthService authService;
-    private final StudentRespository studentRespository;
+    private final StudentRepository studentRepository;
+    private final AdminRepository adminRepository;
     private static final String SECRET = "POLVORONES";
     private static final long EXPIRATION_TIME = 864_000_00;
 
@@ -27,7 +29,7 @@ public class JWTUtils {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
         String role = "USER";
-        Student tokenUser = studentRespository.getStudent(ci).orElseThrow(
+        Student tokenUser = studentRepository.getStudent(ci).orElseThrow(
                 () -> new RuntimeException("User not found")
         );
 
@@ -45,6 +47,30 @@ public class JWTUtils {
                 .claim("email", email)
                 .claim("birthdate", birthdate)
                 .claim("career", career)
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, SECRET)
+                .compact();
+    }
+    public String generateAdminToken(Integer ci) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
+        String role = "ADMIN";
+        Admin tokenAdmin = adminRepository.getAdmin(ci).orElseThrow(
+                () -> new RuntimeException("User not found")
+        );
+
+        String name = tokenAdmin.getName();
+        String lastName = tokenAdmin.getLastname();
+        String email = tokenAdmin.getEmail();
+        String birthdate = tokenAdmin.getBirthdate().toString();
+        return Jwts.builder()
+                .setSubject(ci.toString())
+                .claim("role", role)
+                .claim("name", name)
+                .claim("lastName", lastName)
+                .claim("email", email)
+                .claim("birthdate", birthdate)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, SECRET)
@@ -128,4 +154,6 @@ public class JWTUtils {
             throw new RuntimeException("Could not extract authorities from token", e);
         }
     }
+
+
 }

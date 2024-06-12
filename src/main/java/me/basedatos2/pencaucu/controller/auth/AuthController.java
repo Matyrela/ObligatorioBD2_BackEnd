@@ -16,6 +16,9 @@ public class AuthController {
     private final AuthService authService;
     private final JWTUtils jwtUtils;
 
+
+
+
     @PostMapping("register")
     public Auth.RegisterResponse register(
             @RequestBody Auth.RegisterRequest registerRequest
@@ -42,8 +45,13 @@ public class AuthController {
             @RequestBody Auth.LoginRequest loginRequest
     ) {
         try {
-            authService.Login(loginRequest);
-            String token = jwtUtils.generateToken(loginRequest.ci());
+            boolean check = authService.Login(loginRequest);
+            String token = "";
+            if (!check){
+                token = jwtUtils.generateToken(loginRequest.ci());
+            }else{
+                token = jwtUtils.generateAdminToken(loginRequest.ci());
+            }
 
             return Auth.LoginResponse.builder()
                 .status(HttpStatus.OK)
