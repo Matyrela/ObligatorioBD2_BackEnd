@@ -37,7 +37,7 @@ public class JWTUtils {
         String lastName = tokenUser.getLastname();
         String email = tokenUser.getEmail();
         String birthdate = tokenUser.getBirthdate().toString();
-        String career = "Ing. Informatica";
+        String career = tokenUser.getCareer().getName();
 
         return Jwts.builder()
                 .setSubject(ci.toString())
