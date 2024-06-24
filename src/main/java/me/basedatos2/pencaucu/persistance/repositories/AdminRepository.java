@@ -1,7 +1,6 @@
 package me.basedatos2.pencaucu.persistance.repositories;
 
 import me.basedatos2.pencaucu.persistance.entities.Admin;
-import me.basedatos2.pencaucu.persistance.entities.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

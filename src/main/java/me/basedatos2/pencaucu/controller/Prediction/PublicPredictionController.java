@@ -16,15 +16,14 @@ public class PublicPredictionController {
     public ResponseEntity<?> getPredictions() {
         return ResponseEntity.ok(predictionService.getPredictions());
     }
+
     @PostMapping("")
-    public ResponseEntity<?> createPrediction(@RequestBody Predictiondto.PredictionDto predictiondto){
+    public ResponseEntity<?> createPrediction(@RequestBody Predictiondto.CreatePredictionDto predictiondto){
         try {
             predictionService.createPrediction(predictiondto);
         } catch (RuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
         return ResponseEntity.ok("Prediction created");
     }
-
 }

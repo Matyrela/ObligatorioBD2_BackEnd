@@ -3,8 +3,6 @@ package me.basedatos2.pencaucu.persistance.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
