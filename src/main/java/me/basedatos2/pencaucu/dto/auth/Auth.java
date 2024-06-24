@@ -18,7 +18,8 @@ public class Auth {
     public record LoginResponse(
             HttpStatus status,
             String message,
-            String token
+            String token,
+            String role
     ) {}
 
     // REGISTER RECORD --------------------------------------------------------

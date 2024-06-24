@@ -47,15 +47,19 @@ public class AuthController {
         try {
             boolean check = authService.Login(loginRequest);
             String token = "";
+            String role = "";
             if (!check){
                 token = jwtUtils.generateToken(loginRequest.ci());
+                role = "USER";
             }else{
                 token = jwtUtils.generateAdminToken(loginRequest.ci());
+                role = "ADMIN";
             }
 
             return Auth.LoginResponse.builder()
                 .status(HttpStatus.OK)
                 .token(token)
+                .role(role)
                 .message("Login successful")
                 .build();
         } catch (RuntimeException e) {
