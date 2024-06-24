@@ -45,6 +45,7 @@ public class Auth {
             String email
     ) {}
 
+
     @Builder
     public record RegisterResponse(
             HttpStatus status,
@@ -56,6 +57,11 @@ public class Auth {
 
     public record TokenRequest(
             String token
+    ) {}
+
+    // Borrar usuario record
+    public record DeleteUserRequest(
+            Integer id
     ) {}
 
 }

@@ -23,7 +23,7 @@ public class PrivateCareerController {
         return ResponseEntity.ok("Career created");
     }
 
-    @PutMapping("delete")
+    @DeleteMapping("delete")
     public ResponseEntity<?> deleteCareer(@RequestBody Careerdto.DeleteCareerDto careerdto){
         try {
             careerService.deleteCareer(careerdto);

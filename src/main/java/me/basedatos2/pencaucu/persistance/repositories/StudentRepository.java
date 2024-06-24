@@ -62,4 +62,10 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
             SELECT * FROM student WHERE ci = :ci;
         """)
     Optional<Student> getRank(Long ci);
+
+    @Modifying
+    @Query(value = """
+        DELETE FROM student WHERE ci = ?1
+    """, nativeQuery = true)
+    void deleteStudent(Integer ci);
 }

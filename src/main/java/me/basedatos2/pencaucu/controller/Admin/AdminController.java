@@ -5,11 +5,8 @@ import lombok.RequiredArgsConstructor;
 import me.basedatos2.pencaucu.dto.auth.Auth;
 import me.basedatos2.pencaucu.services.auth.AuthService;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("admin")
@@ -36,4 +33,19 @@ public class AdminController {
                     .build();
         }
     }
+
+    @DeleteMapping("user/delete")
+    public ResponseEntity<?> deleteUser(
+            @RequestBody Auth.DeleteUserRequest deleteUserRequest
+    ) {
+        try {
+            authService.deleteStudent(deleteUserRequest);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        return ResponseEntity.ok("User deleted");
+    }
+
+
 }
