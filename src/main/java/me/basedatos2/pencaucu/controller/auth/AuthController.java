@@ -16,9 +16,6 @@ public class AuthController {
     private final AuthService authService;
     private final JWTUtils jwtUtils;
 
-
-
-
     @PostMapping("register")
     public Auth.RegisterResponse register(
             @RequestBody Auth.RegisterRequest registerRequest
