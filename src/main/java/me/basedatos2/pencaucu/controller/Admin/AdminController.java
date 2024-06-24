@@ -34,7 +34,7 @@ public class AdminController {
         }
     }
 
-    @DeleteMapping("user/delete")
+    @DeleteMapping("user")
     public ResponseEntity<?> deleteUser(
             @RequestBody Auth.DeleteUserRequest deleteUserRequest
     ) {
