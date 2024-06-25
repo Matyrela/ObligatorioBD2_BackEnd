@@ -32,7 +32,6 @@ public class PrivateCareerController {
         } catch (RuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
     }
 }
 

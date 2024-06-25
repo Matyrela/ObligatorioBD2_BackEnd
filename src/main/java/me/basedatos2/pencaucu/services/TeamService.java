@@ -29,4 +29,8 @@ public class TeamService {
         teamRepository.insertTeam(teamdto.countryid(), teamdto.name(), teamdto.country());
         return true;
     }
+
+    public void deleteTeam(Teamdto.DeleteTeamDto deleteTeamDto) {
+        teamRepository.deleteTeam(deleteTeamDto.id());
+    }
 }

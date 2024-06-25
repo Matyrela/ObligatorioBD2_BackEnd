@@ -18,4 +18,8 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
     @Modifying
     @Query(nativeQuery = true, value = "INSERT INTO team (countryid, name, country) VALUES (?1, ?2, ?3)")
     void insertTeam(Integer countryid, String name, String country);
+
+    @Modifying
+    @Query(nativeQuery = true, value = "DELETE FROM team WHERE countryid = ?1")
+    void deleteTeam(Integer id);
 }
