@@ -7,6 +7,6 @@ public class Teamdto {
             String country
     ) {}
     public record DeleteTeamDto(
-            Long id
+            Integer id
     ) {}
 }

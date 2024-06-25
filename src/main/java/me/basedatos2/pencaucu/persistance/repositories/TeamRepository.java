@@ -21,5 +21,5 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
 
     @Modifying
     @Query(nativeQuery = true, value = "DELETE FROM team WHERE countryid = ?1")
-    void deleteTeam(Long id);
+    void deleteTeam(Integer id);
 }

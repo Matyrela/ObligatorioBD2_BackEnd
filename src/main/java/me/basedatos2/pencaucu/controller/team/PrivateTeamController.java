@@ -24,7 +24,7 @@ public class PrivateTeamController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteTeam(@PathVariable Long id){
+    public ResponseEntity<?> deleteTeam(@PathVariable Integer id){
         Teamdto.DeleteTeamDto deleteTeamDto = new Teamdto.DeleteTeamDto(id);
         try {
             teamService.deleteTeam(deleteTeamDto);
