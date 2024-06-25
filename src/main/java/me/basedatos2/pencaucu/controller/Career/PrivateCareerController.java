@@ -23,8 +23,9 @@ public class PrivateCareerController {
 
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<?> deleteCareer(@PathVariable Careerdto.DeleteCareerDto careerdto){
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteCareer(@PathVariable Integer id){
+        Careerdto.DeleteCareerDto careerdto = new Careerdto.DeleteCareerDto(id);
         try {
             careerService.deleteCareer(careerdto);
             return ResponseEntity.ok("Career deleted");
