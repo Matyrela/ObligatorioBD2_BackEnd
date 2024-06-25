@@ -1,7 +1,7 @@
 package me.basedatos2.pencaucu.services.auth;
 
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import me.basedatos2.pencaucu.dto.auth.Auth;
 import me.basedatos2.pencaucu.persistance.entities.Admin;
 import me.basedatos2.pencaucu.persistance.entities.Student;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthService {
     private final StudentRepository studentRepository;
     private final AdminRepository adminRepository;
@@ -109,11 +109,6 @@ public class AuthService {
                 throw new RuntimeException("Usuario no encontrado");
             }
         }
-    }
-    
-    @Transactional
-    public void deleteStudent(Auth.DeleteUserRequest deleteUserRequest){
-        studentRepository.deleteStudent(deleteUserRequest.id());
     }
 
 }

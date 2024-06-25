@@ -3,6 +3,7 @@ package me.basedatos2.pencaucu.controller.Admin;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import me.basedatos2.pencaucu.dto.auth.Auth;
+import me.basedatos2.pencaucu.services.AdminService;
 import me.basedatos2.pencaucu.services.auth.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 public class AdminController {
     private final AuthService authService;
+    private final AdminService adminService;
     @PostMapping("register")
     public Auth.RegisterResponse registerAdmin(
             @RequestBody Auth.AdminRegisterRequest adminRegisterRequest
@@ -38,7 +40,7 @@ public class AdminController {
     public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
         Auth.DeleteUserRequest deleteUserRequest = new Auth.DeleteUserRequest(id);
         try {
-            authService.deleteStudent(deleteUserRequest);
+            adminService.deleteStudent(deleteUserRequest);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
