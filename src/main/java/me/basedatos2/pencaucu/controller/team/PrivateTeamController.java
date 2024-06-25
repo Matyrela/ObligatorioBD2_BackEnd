@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.basedatos2.pencaucu.dto.team.Teamdto;
 import me.basedatos2.pencaucu.services.TeamService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("admin/team")
@@ -24,5 +21,16 @@ public class PrivateTeamController {
        }catch (Exception e){
            return ResponseEntity.badRequest().body(e.getMessage());
        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteTeam(@PathVariable Long id){
+        Teamdto.DeleteTeamDto deleteTeamDto = new Teamdto.DeleteTeamDto(id);
+        try {
+            teamService.deleteTeam(deleteTeamDto);
+            return ResponseEntity.ok("Team deleted");
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

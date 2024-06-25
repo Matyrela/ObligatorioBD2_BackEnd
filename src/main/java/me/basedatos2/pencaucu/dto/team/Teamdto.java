@@ -6,4 +6,7 @@ public class Teamdto {
             String name,
             String country
     ) {}
+    public record DeleteTeamDto(
+            Long id
+    ) {}
 }
