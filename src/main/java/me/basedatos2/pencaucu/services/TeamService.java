@@ -30,6 +30,7 @@ public class TeamService {
         return true;
     }
 
+    @Transactional
     public void deleteTeam(Teamdto.DeleteTeamDto deleteTeamDto) {
         teamRepository.deleteTeam(deleteTeamDto.id());
     }
