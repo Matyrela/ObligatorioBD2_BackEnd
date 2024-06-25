@@ -24,7 +24,7 @@ public class PrivateCareerController {
     }
 
     @DeleteMapping("")
-    public ResponseEntity<?> deleteCareer(@RequestBody Careerdto.DeleteCareerDto careerdto){
+    public ResponseEntity<?> deleteCareer(@PathVariable Careerdto.DeleteCareerDto careerdto){
         try {
             careerService.deleteCareer(careerdto);
             return ResponseEntity.ok("Career deleted");
