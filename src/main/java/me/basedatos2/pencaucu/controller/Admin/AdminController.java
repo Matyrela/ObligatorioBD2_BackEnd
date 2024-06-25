@@ -34,10 +34,9 @@ public class AdminController {
         }
     }
 
-    @DeleteMapping("user")
-    public ResponseEntity<?> deleteUser(
-            @RequestBody Auth.DeleteUserRequest deleteUserRequest
-    ) {
+    @DeleteMapping("user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
+        Auth.DeleteUserRequest deleteUserRequest = new Auth.DeleteUserRequest(id);
         try {
             authService.deleteStudent(deleteUserRequest);
         } catch (RuntimeException e) {
