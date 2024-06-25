@@ -16,22 +16,22 @@ public class PrivateCareerController {
     public ResponseEntity<?> createCareer(@RequestBody Careerdto.CreateCareerDto careerdto){
         try {
             careerService.createCareer(careerdto);
+            return ResponseEntity.ok("Career created");
         } catch (RuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 
-        return ResponseEntity.ok("Career created");
     }
 
-    @DeleteMapping("delete")
+    @DeleteMapping("")
     public ResponseEntity<?> deleteCareer(@RequestBody Careerdto.DeleteCareerDto careerdto){
         try {
             careerService.deleteCareer(careerdto);
+            return ResponseEntity.ok("Career deleted");
         } catch (RuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 
-        return ResponseEntity.ok("Career deleted");
     }
 }
 

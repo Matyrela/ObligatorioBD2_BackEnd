@@ -10,7 +10,7 @@ public class Predictiondto {
             Long studentid
     ) {
     }
-    public record CreatePredictionDto(
+    public record   CreatePredictionDto(
             Integer matchid,
             Integer team1score,
             Integer team2score,

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import java.util.List;
+import java.util.Optional;
 
 public interface CareerRepository extends JpaRepository<Career, Integer> {
 
@@ -21,4 +22,7 @@ public interface CareerRepository extends JpaRepository<Career, Integer> {
 
     @Query(value = "SELECT * FROM career", nativeQuery = true)
     public List<Career> getCareers();
+
+    @Query(value = "SELECT * FROM career WHERE name = ?1", nativeQuery = true)
+    Optional<Career> getUniqueCareer(String name);
 }

@@ -23,6 +23,9 @@ public class CareerService {
 
     @Transactional
     public void createCareer(Careerdto.CreateCareerDto careerdto){
+        if (careerRepository.getUniqueCareer(careerdto.name().toLowerCase()).isPresent()) {
+            throw new RuntimeException("Career already exists");
+        }
         careerRepository.createCareer(careerdto.name());
     }
 

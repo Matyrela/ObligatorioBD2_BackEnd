@@ -65,4 +65,7 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
             """
     )
     void updateScores(Integer gameid, Integer score1, Integer score2);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM game WHERE gameid = ?1")
+    Optional<Game> getGame(Integer matchid);
 }

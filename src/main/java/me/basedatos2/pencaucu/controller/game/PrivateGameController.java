@@ -17,9 +17,9 @@ public class PrivateGameController {
     private final GameService gameService;
 
     @PostMapping("")
-    public ResponseEntity<?> createTeam(@RequestBody Gamedto.CreateGameDto teamdto){
+    public ResponseEntity<?> createGame(@RequestBody Gamedto.CreateGameDto gamedto){
         try {
-            gameService.createGame(teamdto);
+            gameService.createGame(gamedto);
         } catch (RuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
