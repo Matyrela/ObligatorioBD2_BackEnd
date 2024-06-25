@@ -110,7 +110,8 @@ public class AuthService {
             }
         }
     }
-
+    
+    @Transactional
     public void deleteStudent(Auth.DeleteUserRequest deleteUserRequest){
         studentRepository.deleteStudent(deleteUserRequest.id());
     }
