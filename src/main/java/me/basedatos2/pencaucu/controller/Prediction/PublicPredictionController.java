@@ -2,6 +2,7 @@ package me.basedatos2.pencaucu.controller.Prediction;
 
 import lombok.RequiredArgsConstructor;
 import me.basedatos2.pencaucu.dto.Prediction.Predictiondto;
+import me.basedatos2.pencaucu.dto.responses.DataResponse;
 import me.basedatos2.pencaucu.services.PredictionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class PublicPredictionController {
     public ResponseEntity<?> createPrediction(@RequestBody Predictiondto.CreatePredictionDto predictiondto){
         try {
             predictionService.createPrediction(predictiondto);
-            return ResponseEntity.ok("Prediction created");
+            return ResponseEntity.ok(DataResponse.GenerateDataResponse("Prediction created"));
         } catch (RuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

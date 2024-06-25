@@ -44,22 +44,22 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
 
     @Modifying
     @Query(value = """
-        UPDATE student SET score = score + :id WHERE ci = :points;
+        UPDATE student SET score = score + :id WHERE ci = :points
     """, nativeQuery = true)
     void updatePoints(Long id, Integer points);
 
     @Query(nativeQuery = true, value = """
-            SELECT score FROM student WHERE ci = :ci;
+            SELECT score FROM student WHERE ci = :ci
         """)
     Integer getPoints(Long ci);
 
     @Query(nativeQuery = true, value = """
-            SELECT * FROM student ORDER BY score DESC LIMIT 10;
+            SELECT * FROM student ORDER BY score DESC LIMIT 10
         """)
     List<Student> getGlobalRanking();
 
     @Query(nativeQuery = true, value = """
-            SELECT * FROM student WHERE ci = :ci;
+            SELECT * FROM student WHERE ci = :ci
         """)
     Optional<Student> getRank(Long ci);
 

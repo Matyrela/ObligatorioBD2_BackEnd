@@ -46,29 +46,23 @@ public class GameService {
     public void updateScores(Gamedto.UpdateScoresDto teamdto) throws RuntimeException {
         gameRepository.updateScores(teamdto.gameid(), teamdto.scoreTeam1(), teamdto.scoreTeam2());
         List<Prediction> affectedPredictions = predictionRepository.getAffectedPredictions(teamdto.gameid());
-        affectedPredictions.forEach(prediction -> {
-            int predictionPoints = prediction.getPoints();
-            int points = studentRepository.getPoints(prediction.getStudent().getId());
-            studentRepository.updatePoints(prediction.getStudent().getId(), points - predictionPoints);
+        for (Prediction p : affectedPredictions){
+            int predictionPoints = p.getPoints();
+            int points = studentRepository.getPoints(p.getStudent().getId());
+            studentRepository.updatePoints(p.getStudent().getId(), points - predictionPoints);
 
-            if (prediction.getTeam1score().equals(teamdto.scoreTeam1()) && prediction.getTeam2score().equals(teamdto.scoreTeam2())) {
-                predictionRepository.updatePoints(prediction.getId(), 4);
-                studentRepository.updatePoints(prediction.getStudent().getId(), points + 4);
-            } else if ((prediction.getTeam1score() > prediction.getTeam2score() && teamdto.scoreTeam1() > teamdto.scoreTeam2()) ||
-                    (prediction.getTeam1score() < prediction.getTeam2score() && teamdto.scoreTeam1() < teamdto.scoreTeam2()) ||
-                    (prediction.getTeam1score().equals(prediction.getTeam2score()) && teamdto.scoreTeam1().equals(teamdto.scoreTeam2()))) {
+            if (p.getTeam1score().equals(teamdto.scoreTeam1()) && p.getTeam2score().equals(teamdto.scoreTeam2())) {
+                predictionRepository.updatePoints(p.getId(), 4);
+                studentRepository.updatePoints(p.getStudent().getId(), points + 4);
+            } else if ((p.getTeam1score() > p.getTeam2score() && teamdto.scoreTeam1() > teamdto.scoreTeam2()) ||
+                    (p.getTeam1score() < p.getTeam2score() && teamdto.scoreTeam1() < teamdto.scoreTeam2()) ||
+                    (p.getTeam1score().equals(p.getTeam2score()) && teamdto.scoreTeam1().equals(teamdto.scoreTeam2()))) {
 
-                predictionRepository.updatePoints(prediction.getId(), 2);
-                studentRepository.updatePoints(prediction.getStudent().getId(), points + 2);
+                predictionRepository.updatePoints(p.getId(), 2);
+                studentRepository.updatePoints(p.getStudent().getId(), points + 2);
             }else{
-                predictionRepository.updatePoints(prediction.getId(), 0);
+                predictionRepository.updatePoints(p.getId(), 0);
             }
-
-        });
+        }
     }
 }
-
-/*
-Quito los puntos de prediccion.point ->
-
-*/

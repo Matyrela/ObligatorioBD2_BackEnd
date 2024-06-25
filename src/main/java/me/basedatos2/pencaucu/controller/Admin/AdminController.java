@@ -3,6 +3,7 @@ package me.basedatos2.pencaucu.controller.Admin;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import me.basedatos2.pencaucu.dto.auth.Auth;
+import me.basedatos2.pencaucu.dto.responses.DataResponse;
 import me.basedatos2.pencaucu.services.auth.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,7 @@ public class AdminController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 
-        return ResponseEntity.ok("User deleted");
+        return ResponseEntity.ok(DataResponse.GenerateDataResponse("User deleted"));
     }
 
 

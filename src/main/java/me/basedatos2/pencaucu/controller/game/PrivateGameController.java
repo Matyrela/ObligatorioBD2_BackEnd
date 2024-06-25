@@ -2,6 +2,7 @@ package me.basedatos2.pencaucu.controller.game;
 
 import lombok.RequiredArgsConstructor;
 import me.basedatos2.pencaucu.dto.game.Gamedto;
+import me.basedatos2.pencaucu.dto.responses.DataResponse;
 import me.basedatos2.pencaucu.services.GameService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,13 +25,16 @@ public class PrivateGameController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 
-        return ResponseEntity.ok("Game created");
+        return ResponseEntity.ok(DataResponse.GenerateDataResponse("Game created"));
     }
 
     @PostMapping("/update")
     public ResponseEntity<?> updateScores(@RequestBody Gamedto.UpdateScoresDto teamdto){
-        gameService.updateScores(teamdto);
-        return ResponseEntity.ok("Scores updated");
+        try{
+            gameService.updateScores(teamdto);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok(DataResponse.GenerateDataResponse("Scores updated"));
     }
-
 }
