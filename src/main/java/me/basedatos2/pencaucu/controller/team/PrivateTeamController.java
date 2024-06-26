@@ -20,7 +20,7 @@ public class PrivateTeamController {
            teamService.createTeam(teamdto);
            return ResponseEntity.ok(DataResponse.GenerateDataResponse("Team created"));
        }catch (Exception e){
-           return ResponseEntity.badRequest().body(e.getMessage());
+           return ResponseEntity.badRequest().body(DataResponse.GenerateDataResponse(e.getMessage()));
        }
     }
 
@@ -31,7 +31,7 @@ public class PrivateTeamController {
             teamService.deleteTeam(deleteTeamDto);
             return ResponseEntity.ok(DataResponse.GenerateDataResponse("Team deleted"));
         }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(DataResponse.GenerateDataResponse(e.getMessage()));
         }
     }
 }

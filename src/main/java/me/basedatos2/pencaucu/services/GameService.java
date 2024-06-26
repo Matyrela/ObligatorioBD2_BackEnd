@@ -2,13 +2,21 @@ package me.basedatos2.pencaucu.services;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import me.basedatos2.pencaucu.dto.Prediction.Predictiondto;
 import me.basedatos2.pencaucu.dto.game.Gamedto;
+import me.basedatos2.pencaucu.persistance.entities.Game;
 import me.basedatos2.pencaucu.persistance.entities.Prediction;
+import me.basedatos2.pencaucu.persistance.entities.Student;
 import me.basedatos2.pencaucu.persistance.repositories.GameRepository;
 import me.basedatos2.pencaucu.persistance.repositories.PredictionRepository;
 import me.basedatos2.pencaucu.persistance.repositories.StudentRepository;
+import me.basedatos2.pencaucu.util.StudentUtils;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +27,7 @@ public class GameService {
     private final GameRepository gameRepository;
     private final PredictionRepository predictionRepository;
     private final StudentRepository studentRepository;
+    private final StudentUtils studentUtils;
 
     @Transactional
     public void createGame(Gamedto.CreateGameDto teamdto) throws RuntimeException{
@@ -29,17 +38,39 @@ public class GameService {
         gameRepository.createGame(teamdto.date(), teamdto.time(), teamdto.team1(), teamdto.team2(), teamdto.stadium());
     }
 
-    public List<Gamedto.GameDto> getGames() {
-        return gameRepository.getAllGames().stream().map(game -> new Gamedto.GameDto(
-                game.getId(),
-                game.getDate(),
-                game.getTime(),
-                game.getTeam1id().getName(),
-                game.getTeam2id().getName(),
-                game.getStadium(),
-                game.getTeam1score(),
-                game.getTeam2score()
-        )).collect(Collectors.toList());
+    public Gamedto.GameTypesDto getGames() {
+        List<Game> games = gameRepository.getAllGames();
+
+        List<Gamedto.GameDto> futureGames = games.stream()
+                .filter(game -> {
+                    LocalDateTime now = LocalDateTime.now();
+                    LocalDateTime gameTime = game.getDate().atTime(game.getTime());
+
+                    return gameTime.isAfter(now);
+                })
+                .map(this::apply)
+                .collect(Collectors.toList());
+
+
+        List<Gamedto.GameDto> inProgressGames = games.stream()
+                .filter(game -> {
+                    LocalDateTime now = LocalDateTime.now();
+                    LocalDateTime gameTime = game.getDate().atTime(game.getTime());
+
+                    return gameTime.isBefore(now) && gameTime.plusHours(3).isAfter(now);
+                })
+                .map(this::apply)
+                .collect(Collectors.toList());
+
+        List<Gamedto.GameDto> pastGames = games.stream()
+                .filter(game -> {
+                    LocalDateTime now = LocalDateTime.now();
+                    LocalDateTime gameTime = game.getDate().atTime(game.getTime());
+
+                    return gameTime.plusHours(3).isBefore(now);
+                }).map(this::apply).collect(Collectors.toList());
+
+        return new Gamedto.GameTypesDto(futureGames, inProgressGames, pastGames);
     }
 
     @Transactional
@@ -64,5 +95,43 @@ public class GameService {
                 predictionRepository.updatePoints(p.getId(), 0);
             }
         }
+    }
+
+    private Gamedto.GameDto apply(Game game) {
+        Student student = studentUtils.getStudentFromRequest();
+        Prediction myPrediction = predictionRepository.getPredictionByGameIdAndStudent(game.getId(), student.getId());
+
+        if (myPrediction == null) {
+            return new Gamedto.GameDto(
+                    game.getId(),
+                    game.getDate(),
+                    game.getTime(),
+                    game.getTeam1id().getName(),
+                    game.getTeam2id().getName(),
+                    game.getStadium(),
+                    game.getTeam1score(),
+                    game.getTeam2score(),
+                    null
+            );
+        }
+
+        return new Gamedto.GameDto(
+                game.getId(),
+                game.getDate(),
+                game.getTime(),
+                game.getTeam1id().getName(),
+                game.getTeam2id().getName(),
+                game.getStadium(),
+                game.getTeam1score(),
+                game.getTeam2score(),
+                new Predictiondto.PredictionDto(
+                        myPrediction.getId(),
+                        myPrediction.getGame().getId(),
+                        myPrediction.getPoints(),
+                        myPrediction.getTeam1score(),
+                        myPrediction.getTeam2score(),
+                        myPrediction.getStudent().getId()
+                )
+        );
     }
 }
