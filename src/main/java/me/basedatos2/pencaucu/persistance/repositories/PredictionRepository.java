@@ -34,4 +34,10 @@ public interface PredictionRepository extends JpaRepository<Prediction, Integer>
         SELECT * FROM prediction WHERE game = :id AND student = :ci
     """)
     Prediction getPredictionByGameIdAndStudent(Integer id, Long ci);
+
+    @Modifying
+    @Query(nativeQuery = true, value = """
+        UPDATE prediction SET team1score = ?2, team2score = ?3 WHERE game = ?1
+    """)
+    void updateScores(Integer gameid, Integer team1score, Integer team2score);
 }

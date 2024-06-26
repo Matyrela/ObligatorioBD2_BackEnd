@@ -30,16 +30,11 @@ public class PredictionService {
                 prediction.getPoints(),
                 prediction.getTeam1score(),
                 prediction.getTeam2score(),
-                prediction.getStudent().getId()
-        )).collect(Collectors.toList());
+                prediction.getStudent().getId())).collect(Collectors.toList());
     }
 
     @Transactional
     public void createPrediction(Predictiondto.CreatePredictionDto predictionDto) throws RuntimeException {
-        Student student = su.getStudentFromRequest();
-        pr.getUniquePrediction(predictionDto.matchid(), student.getId()).ifPresent(prediction -> {
-            throw new RuntimeException("Prediction already exists");
-        });
 
         Optional<Game> optionalGame = gr.getGame(predictionDto.matchid());
         if (optionalGame.isPresent()) {
@@ -49,16 +44,22 @@ public class PredictionService {
 
             if (now.toLocalDate().isAfter(game.getDate())) {
                 throw new RuntimeException("Cannot create prediction for a game that has already happened");
-            }else if (now.toLocalDate().isEqual(game.getDate()) && now.toLocalTime().isAfter(game.getTime())) {
+            } else if (now.toLocalDate().isEqual(game.getDate()) && now.toLocalTime().isAfter(game.getTime())) {
                 throw new RuntimeException("Cannot create prediction for a game that has already happened");
             }
 
             long hoursUntilGame = ChronoUnit.HOURS.between(game.getTime(), now);
-            if ((now.toLocalDate().equals(game.getDate())) && (hoursUntilGame <= 1) && (game.getTime().isAfter(now.toLocalTime()))){
+            if ((now.toLocalDate().equals(game.getDate())) && (hoursUntilGame <= 1)
+                    && (game.getTime().isAfter(now.toLocalTime()))) {
                 throw new RuntimeException("Cannot create prediction less than an hour before the game starts");
             }
-
-            pr.createPrediction(predictionDto.matchid(), predictionDto.team1score(), predictionDto.team2score(), student.getId());
+            Student student = su.getStudentFromRequest();
+            if (pr.getUniquePrediction(predictionDto.matchid(), student.getId()).isPresent()) {
+                pr.updateScores(predictionDto.matchid(), predictionDto.team1score(), predictionDto.team2score());
+            } else {
+                pr.createPrediction(predictionDto.matchid(), predictionDto.team1score(), predictionDto.team2score(),
+                student.getId());
+            }   
         } else {
             throw new RuntimeException("Game not found");
         }

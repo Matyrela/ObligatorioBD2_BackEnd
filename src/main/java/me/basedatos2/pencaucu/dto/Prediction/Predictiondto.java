@@ -13,8 +13,7 @@ public class Predictiondto {
     public record   CreatePredictionDto(
             Integer matchid,
             Integer team1score,
-            Integer team2score,
-            Long studentid
-    ) {
+            Integer team2score    
+        ) {
     }
 }
