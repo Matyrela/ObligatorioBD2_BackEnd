@@ -14,7 +14,7 @@ public class PublicGameController {
 
     private final GameService gameService;
 
-    @GetMapping()
+    @GetMapping("")
     public ResponseEntity<?> getGames() {
         return ResponseEntity.ok(gameService.getGames());
     }
