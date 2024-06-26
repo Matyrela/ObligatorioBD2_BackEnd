@@ -18,8 +18,8 @@ public class StudentUtils {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String token = jwtUtils.getTokenFromRequest(request);
         if (token != null && jwtUtils.validateToken(token)) {
-            Long ci = Long.valueOf(jwtUtils.getSubjectFromToken(token));
-            return studentRepository.findById(ci).orElse(null);
+            Integer ci = Integer.valueOf(jwtUtils.getSubjectFromToken(token));
+            return studentRepository.getStudent(ci).orElse(null);
         }
         return null;
     }

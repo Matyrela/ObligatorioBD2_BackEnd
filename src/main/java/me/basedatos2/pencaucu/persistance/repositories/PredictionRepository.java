@@ -1,6 +1,7 @@
 package me.basedatos2.pencaucu.persistance.repositories;
 
 import me.basedatos2.pencaucu.persistance.entities.Prediction;
+import me.basedatos2.pencaucu.persistance.entities.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -28,4 +29,9 @@ public interface PredictionRepository extends JpaRepository<Prediction, Integer>
         UPDATE prediction SET points = :i WHERE id = :id
     """)
     void updatePoints(Integer id, int i);
+
+    @Query(nativeQuery = true, value = """
+        SELECT * FROM prediction WHERE game = :id AND student = :ci
+    """)
+    Prediction getPredictionByGameIdAndStudent(Integer id, Long ci);
 }

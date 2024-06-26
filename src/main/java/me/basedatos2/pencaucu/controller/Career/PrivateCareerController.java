@@ -19,7 +19,7 @@ public class PrivateCareerController {
             careerService.createCareer(careerdto);
             return ResponseEntity.ok(DataResponse.GenerateDataResponse("Career created"));
         } catch (RuntimeException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(DataResponse.GenerateDataResponse(e.getMessage()));
         }
 
     }
@@ -31,7 +31,7 @@ public class PrivateCareerController {
             careerService.deleteCareer(careerdto);
             return ResponseEntity.ok(DataResponse.GenerateDataResponse("Career deleted"));
         } catch (RuntimeException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(DataResponse.GenerateDataResponse(e.getMessage()));
         }
     }
 }

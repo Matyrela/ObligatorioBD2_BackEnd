@@ -43,7 +43,7 @@ public class AdminController {
         try {
             adminService.deleteStudent(deleteUserRequest);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(DataResponse.GenerateDataResponse(e.getMessage()));
         }
 
         return ResponseEntity.ok(DataResponse.GenerateDataResponse("User deleted"));

@@ -24,7 +24,7 @@ public class PublicPredictionController {
             predictionService.createPrediction(predictiondto);
             return ResponseEntity.ok(DataResponse.GenerateDataResponse("Prediction created"));
         } catch (RuntimeException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(DataResponse.GenerateDataResponse(e.getMessage()));
         }
     }
 }
