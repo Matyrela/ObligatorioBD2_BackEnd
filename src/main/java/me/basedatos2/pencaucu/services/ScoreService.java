@@ -19,22 +19,21 @@ public class ScoreService {
 
     public ScoreDto.rankingResponse getRanking() {
         Student student = studentUtils.getStudentFromRequest();
-        if (student == null) {
-            return new ScoreDto.rankingResponse(List.of());
-        }
-
         List<Student> scores = studentRepository.getGlobalRanking();
 
-        if (scores.size() >= 10){
-            if (!scores.contains(student)) {
-                scores.remove(9);
-                scores.add(student);
-            }
-        }else{
-            if (!scores.contains(student)) {
-                scores.add(student);
+        if (student != null) {
+            if (scores.size() >= 10) {
+                if (!scores.contains(student)) {
+                    scores.remove(9);
+                    scores.add(student);
+                }
+            } else {
+                if (!scores.contains(student)) {
+                    scores.add(student);
+                }
             }
         }
+
         return new ScoreDto.rankingResponse(scores.stream().map(s -> new ScoreDto.score(s.getId(), s.getName(), s.getLastname(), s.getScore())).toList());
     }
 }

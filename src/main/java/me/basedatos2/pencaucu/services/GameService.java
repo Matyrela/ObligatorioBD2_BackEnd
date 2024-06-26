@@ -99,6 +99,19 @@ public class GameService {
 
     private Gamedto.GameDto apply(Game game) {
         Student student = studentUtils.getStudentFromRequest();
+        if (student == null){
+            return new Gamedto.GameDto(
+                    game.getId(),
+                    game.getDate(),
+                    game.getTime(),
+                    game.getTeam1id().getName(),
+                    game.getTeam2id().getName(),
+                    game.getStadium(),
+                    game.getTeam1score(),
+                    game.getTeam2score(),
+                    null
+            );
+        }
         Prediction myPrediction = predictionRepository.getPredictionByGameIdAndStudent(game.getId(), student.getId());
 
         if (myPrediction == null) {
