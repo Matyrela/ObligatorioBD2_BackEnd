@@ -3,11 +3,8 @@ package me.basedatos2.pencaucu.controller.Admin;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import me.basedatos2.pencaucu.dto.auth.Auth;
-<<<<<<< HEAD
 import me.basedatos2.pencaucu.dto.responses.DataResponse;
-=======
 import me.basedatos2.pencaucu.services.AdminService;
->>>>>>> 6d58a6097950867792dbb411983940ef7f6c487c
 import me.basedatos2.pencaucu.services.auth.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
