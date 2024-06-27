@@ -73,8 +73,8 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
     @Query(
             nativeQuery = true,
             value = """
-                SELECT * FROM prediction
+                SELECT * FROM game WHERE date = :mañana
             """
     )
-    List<Game> findManiana(LocalDateTime hoy);
+    List<Game> findManiana(LocalDateTime mañana);
 }
