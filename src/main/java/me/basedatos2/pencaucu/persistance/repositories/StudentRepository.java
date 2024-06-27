@@ -68,4 +68,9 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
         DELETE FROM student WHERE ci = ?1
     """, nativeQuery = true)
     void deleteStudent(Integer ci);
+
+    @Query(nativeQuery = true, value = """
+        SELECT * FROM student
+    """)
+    List<Student> getStudents();
 }

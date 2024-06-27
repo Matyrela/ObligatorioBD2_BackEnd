@@ -22,11 +22,11 @@ public class Game {
     @Column(name = "\"time\"", nullable = false)
     private LocalTime time;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "team1id", nullable = false)
     private Team team1id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "team2id", nullable = false)
     private Team team2id;
 
