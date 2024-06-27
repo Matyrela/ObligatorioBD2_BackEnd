@@ -18,9 +18,9 @@ public class PencaucuApplication {
 				.build();
 		Trigger trigger = TriggerBuilder.newTrigger()
 				.withIdentity("email_service", "group1")
-				.withSchedule(CronScheduleBuilder.cronSchedule("0/30 * * * * ?"))
+				//.withSchedule(CronScheduleBuilder.cronSchedule("0/30 * * * * ?"))
 
-				//.withSchedule(CronScheduleBuilder.cronSchedule("0 0 16 * * ?"))
+				.withSchedule(CronScheduleBuilder.cronSchedule("0 0 16 * * ?"))
 				.build();
 
 		Scheduler scheduler = new StdSchedulerFactory().getScheduler();

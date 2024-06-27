@@ -20,7 +20,7 @@ public interface PredictionRepository extends JpaRepository<Prediction, Integer>
     Optional<Prediction> getUniquePrediction(Integer gameid, Long studentid);
 
     @Query(nativeQuery = true, value = """
-        SELECT * FROM prediction WHERE game = :gameid
+        SELECT * FROM prediction WHERE game = ?1
     """)
     List<Prediction> getAffectedPredictions(Integer gameid);
 

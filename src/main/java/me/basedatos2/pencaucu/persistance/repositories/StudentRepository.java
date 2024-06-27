@@ -43,10 +43,10 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
     );
 
     @Modifying
-    @Query(value = """
-        UPDATE student SET score = score + :id WHERE ci = :points
-    """, nativeQuery = true)
-    void updatePoints(Long id, Integer points);
+    @Query(nativeQuery = true, value = """
+        UPDATE student SET score = ?1 WHERE ci = ?2
+    """)
+    void updatePoints(Integer points, Long id);
 
     @Query(nativeQuery = true, value = """
             SELECT score FROM student WHERE ci = :ci

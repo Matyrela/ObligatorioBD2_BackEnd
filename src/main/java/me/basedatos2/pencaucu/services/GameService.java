@@ -74,23 +74,37 @@ public class GameService {
     }
 
     @Transactional
-    public void updateScores(Gamedto.UpdateScoresDto teamdto) throws RuntimeException {
-        gameRepository.updateScores(teamdto.gameid(), teamdto.scoreTeam1(), teamdto.scoreTeam2());
-        List<Prediction> affectedPredictions = predictionRepository.getAffectedPredictions(teamdto.gameid());
+    public void updateScores(Gamedto.UpdateScoresDto gamedto) throws RuntimeException {
+        gameRepository.updateScores(gamedto.gameid(), gamedto.scoreTeam1(), gamedto.scoreTeam2());
+        List<Prediction> affectedPredictions = predictionRepository.getAffectedPredictions(gamedto.gameid());
+
         for (Prediction p : affectedPredictions){
             int predictionPoints = p.getPoints();
             int points = studentRepository.getPoints(p.getStudent().getId());
-            studentRepository.updatePoints(p.getStudent().getId(), points - predictionPoints);
+            studentRepository.updatePoints(points - predictionPoints, p.getStudent().getId());
 
-            if (p.getTeam1score().equals(teamdto.scoreTeam1()) && p.getTeam2score().equals(teamdto.scoreTeam2())) {
-                predictionRepository.updatePoints(p.getId(), 4);
-                studentRepository.updatePoints(p.getStudent().getId(), points + 4);
-            } else if ((p.getTeam1score() > p.getTeam2score() && teamdto.scoreTeam1() > teamdto.scoreTeam2()) ||
-                    (p.getTeam1score() < p.getTeam2score() && teamdto.scoreTeam1() < teamdto.scoreTeam2()) ||
-                    (p.getTeam1score().equals(p.getTeam2score()) && teamdto.scoreTeam1().equals(teamdto.scoreTeam2()))) {
+            if (p.getTeam1score().equals(gamedto.scoreTeam1()) && p.getTeam2score().equals(gamedto.scoreTeam2())) {
+                if (p.getPoints() == 4){
+                    predictionRepository.updatePoints(p.getId(), 4);
+                    studentRepository.updatePoints(points, p.getStudent().getId());
+                }else{
+                    predictionRepository.updatePoints(p.getId(), 4);
+                    studentRepository.updatePoints(points + 4, p.getStudent().getId());
+                }
 
-                predictionRepository.updatePoints(p.getId(), 2);
-                studentRepository.updatePoints(p.getStudent().getId(), points + 2);
+            } else if (((p.getTeam1score() > p.getTeam2score() && gamedto.scoreTeam1() > gamedto.scoreTeam2()) ||
+                    (p.getTeam1score() < p.getTeam2score() && gamedto.scoreTeam1() < gamedto.scoreTeam2()) ||
+                    (p.getTeam1score().equals(p.getTeam2score()) && gamedto.scoreTeam1().equals(gamedto.scoreTeam2())))){
+                if (p.getPoints() == 2) {
+                    predictionRepository.updatePoints(p.getId(), 2);
+                    studentRepository.updatePoints(points, p.getStudent().getId());
+                } else if (p.getPoints() == 4){
+                    predictionRepository.updatePoints(p.getId(), 2);
+                    studentRepository.updatePoints(points - 2, p.getStudent().getId());
+                } else{
+                    predictionRepository.updatePoints(p.getId(), 2);
+                    studentRepository.updatePoints(points + 2, p.getStudent().getId());
+                }
             }else{
                 predictionRepository.updatePoints(p.getId(), 0);
             }
