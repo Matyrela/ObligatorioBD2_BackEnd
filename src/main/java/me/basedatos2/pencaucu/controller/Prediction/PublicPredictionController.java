@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class PublicPredictionController {
     private final PredictionService predictionService;
 
-    @GetMapping()
+    @GetMapping("/all")
     public ResponseEntity<?> getPredictions() {
         return ResponseEntity.ok(predictionService.getPredictions());
     }
